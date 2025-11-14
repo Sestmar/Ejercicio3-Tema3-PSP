@@ -1,10 +1,15 @@
 package com.cursosapp.cursosapi.web;
 
+import com.cursosapp.cursosapi.domain.Curso;
 import com.cursosapp.cursosapi.domain.Estudiante;
+import com.cursosapp.cursosapi.dto.EstudianteDTO;
+import com.cursosapp.cursosapi.repository.CursoRepository;
 import com.cursosapp.cursosapi.service.EstudianteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -13,14 +18,26 @@ import java.util.List;
 public class EstudianteController {
 
     private final EstudianteService estudianteService;
+    private final CursoRepository cursoRepository;
 
-    public EstudianteController(EstudianteService estudianteService) {
+    public EstudianteController(EstudianteService estudianteService, CursoRepository cursoRepository) {
         this.estudianteService = estudianteService;
+        this.cursoRepository = cursoRepository;
     }
 
     // CREATE
     @PostMapping
-    public ResponseEntity<Estudiante> crearEstudiante(@RequestBody Estudiante estudiante) {
+    public ResponseEntity<Estudiante> crearEstudiante(@RequestBody EstudianteDTO dto) {
+        Curso curso = cursoRepository.findById(dto.cursoId)
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+        Estudiante estudiante = new Estudiante();
+        estudiante.setNombre(dto.nombre);
+        estudiante.setEmail(dto.email);
+        estudiante.setTelefono(dto.telefono);
+        estudiante.setFechaInscripcion(LocalDate.parse(dto.fechaInscripcion));
+        estudiante.setEstado(dto.estado);
+        estudiante.setCurso(curso);
+
         Estudiante estudianteDB = estudianteService.crearEstudiante(estudiante);
         return ResponseEntity.status(HttpStatus.CREATED).body(estudianteDB);
     }
