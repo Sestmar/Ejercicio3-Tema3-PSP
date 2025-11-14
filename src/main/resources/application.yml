@@ -4,13 +4,11 @@ server:
 spring:
   application:
     name: cursos-api
-
   datasource:
     url: jdbc:postgresql://localhost:5432/cursos_db
     username: postgres
     password: 111a
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,9 +17,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: false
-    open-in-view: false
 
 logging:
   level:
     root: INFO
-    org.springframework.web: DEBUG
