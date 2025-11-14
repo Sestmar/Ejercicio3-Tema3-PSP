@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cursos-api
+  datasource:
+    url: jdbc:postgresql://dpg-d4b5cq7pm1nc739kaao0-a.frankfurt-postgres.render.com:5432/cursos_db_bt4t
+    username: cursos_db_bt4t_user
+    password: Wo3nqianYwsIW0JufAb1YBhROriVxehB
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
+logging:
+  level:
+    root: INFO
